@@ -1,4 +1,3 @@
-
 {
   "version": 2,
   "routes": [
@@ -8,9 +7,17 @@
       "headers": {
         "Host": "www.luogu.com",
         "Referer": "https://www.luogu.com/",
-        "X-Forwarded-For": "$remote_addr"
+        "X-Forwarded-For": "$remote_addr",
+        "CF-Connecting-IP": "$remote_addr"  // 伪装成Cloudflare请求
       }
     }
   ],
-  "regions": ["hkg1"] 
+  "regions": ["sfo1"],  // 必须使用北美节点（旧金山）
+  "rewrites": [
+    { "source": "/cdn-cgi/(.*)", "destination": "https://www.luogu.com/cdn-cgi/$1" }
+  ]
+}
+// 在vercel.json追加
+"functions": {
+  "api/*.php": { "runtime": "nodejs18.x" }
 }
