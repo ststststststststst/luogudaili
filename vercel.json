@@ -7,11 +7,7 @@
   "rewrites": [
     {
       "source": "/_next/static/(.*)",
-      "destination": "https://www.luogu.com/_next/static/$1",
-      "headers": {
-        "Host": "www.luogu.com",
-        "X-Forwarded-Region": "hkg1"
-      }
+      "destination": "https://www.luogu.com/_next/static/$1"
     },
     {
       "source": "/api/:path*",
@@ -19,19 +15,8 @@
     },
     {
       "source": "/(.*)",
-      "destination": "https://www.luogu.com/$1",
-      "headers": {
-        "Host": "www.luogu.com",
-        "X-Forwarded-For": "203.198.7.16"
-      }
+      "destination": "https://www.luogu.com/$1"
     }
   ],
-  "regions": ["hkg1"],
-  "redirects": [
-    { 
-      "source": "/", 
-      "destination": "/problemset", 
-      "permanent": false 
-    }
-  ]
+  "regions": ["hkg1"]
 }
