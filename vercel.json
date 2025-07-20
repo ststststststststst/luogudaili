@@ -11,16 +11,16 @@
       "src": "/(.*)",
       "dest": "/api/proxy",
       "headers": {
-        "X-Forwarded-Host": "dailiforluogu.luogu.xyz" // 主域名
+        "X-Forwarded-Host": "dailiforluogu.luogu.xyz" 
       }
     },
     {
       "src": "/(.*)",
       "dest": "/api/proxy",
       "headers": {
-        "X-Forwarded-Host": "luogudaili.luogu.xin" // 备用域名
+        "X-Forwarded-Host": "luogudaili.luogu.xin" 
       }
     }
   ],
-  "regions": ["hkg1"] // 推荐香港节点（延迟低）
+  "regions": ["hkg1"] 
 }
