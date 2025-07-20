@@ -1,30 +1,46 @@
- https = require('https');
-const TARGET = new URL('https://www.luogu.com');
+const https = require('https');
+const HK_IP = '203.198.7.16';
 
 module.exports = async (req, res) => {
-  const path = req.url.replace(/^\/api\//, '');
+  const path = req.query.path || req.url.slice(1);
+  const isStatic = path.includes('static') || path.includes('_next');
+  
   const options = {
-    hostname: TARGET.hostname,
-    path: '/' + path,
+    hostname: 'www.luogu.com',
+    path: '/' + path.replace(/^\/+/, ''),
     method: req.method,
     headers: {
       ...req.headers,
-      host: TARGET.hostname,
-      origin: TARGET.origin,
-      referer: TARGET.origin + '/',
-      'x-real-ip': req.headers['x-real-ip'] || '8.8.8.8'
+      host: 'www.luogu.com',
+      'accept-language': 'en-US',
+      'x-forwarded-for': HK_IP,
+      'cf-connecting-ip': HK_IP 
     },
-    rejectUnauthorized: false 
+    localAddress: true 
   };
 
-  const proxyReq = https.request(options, (proxyRes) => {
-    res.writeHead(proxyRes.statusCode, proxyRes.headers);
-    proxyRes.pipe(res, { end: true });
+  if (isStatic) {
+    return https.get(options, (proxyRes) => {
+      res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      proxyRes.pipe(res);
+    }).on('error', (e) => {
+      console.error('Static error:', e);
+      res.status(504).send('HK CDN Timeout');
+    });
+  }
+
+  const proxy = https.request(options, (proxyRes) => {
+    const headers = { 
+      ...proxyRes.headers,
+      'x-vercel-region': 'hkg1'
+    };
+    res.writeHead(proxyRes.statusCode, headers);
+    proxyRes.pipe(res);
   });
 
-  req.pipe(proxyReq, { end: true });
-  proxyReq.on('error', (e) => {
-    console.error('Proxy error:', e);
-    res.status(502).end();
+  req.pipe(proxy);
+  proxy.on('error', (e) => {
+    console.error('香港代理出了点问题:', e);
+    res.status(502).json({ error: "不好意思，香港节点代理失败，或许后面会上线更多节点。。。" });
   });
 };
