@@ -1,14 +1,16 @@
 
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/proxy",
-      "headers": {
-        "X-Forwarded-Host": "yourdomain.com"
-      }
-    }
-  ],
-  "regions": ["hkg1"]
+  "builds": [{
+    "src": "proxy.js",
+    "use": "@vercel/node"
+  }],
+  "routes": [{
+    "src": "/(.*)",
+    "dest": "/proxy"
+  }],
+  "regions": ["hkg1"],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
