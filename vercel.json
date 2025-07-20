@@ -4,26 +4,22 @@
   "builds": [
     { "src": "api/proxy.js", "use": "@vercel/node" }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/_next/static/(.*)",
-      "dest": "https://www.luogu.com/_next/static/$1",
+      "source": "/_next/static/(.*)",
+      "destination": "https://www.luogu.com/_next/static/$1",
       "headers": {
         "Host": "www.luogu.com",
         "X-Forwarded-Region": "hkg1"
       }
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/proxy",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "no-store"
-      }
+      "source": "/api/:path*",
+      "destination": "/api/proxy?path=:path*"
     },
     {
-      "src": "/(.*)",
-      "dest": "https://www.luogu.com/$1",
+      "source": "/(.*)",
+      "destination": "https://www.luogu.com/$1",
       "headers": {
         "Host": "www.luogu.com",
         "X-Forwarded-For": "203.198.7.16"
@@ -32,6 +28,10 @@
   ],
   "regions": ["hkg1"],
   "redirects": [
-    { "source": "/", "destination": "/problemset", "permanent": false }
+    { 
+      "source": "/", 
+      "destination": "/problemset", 
+      "permanent": false 
+    }
   ]
 }
