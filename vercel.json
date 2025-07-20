@@ -14,27 +14,3 @@
   ],
   "regions": ["hkg1"]
 }
-
-/*
-{
-  "version": 2,
-  "builds": [
-    { "src": "api/proxy.js", "use": "@vercel/node" }
-  ],
-  "rewrites": [
-    {
-      "source": "/_next/static/(.*)",
-      "destination": "https://www.luogu.com/_next/static/$1"
-    },
-    {
-      "source": "/api/:path*",
-      "destination": "/api/proxy?path=:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "https://www.luogu.com/$1"
-    }
-  ],
-  "regions": ["hkg1"]
-}
-*/
