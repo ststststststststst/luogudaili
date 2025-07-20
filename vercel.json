@@ -8,16 +8,9 @@
         "Host": "www.luogu.com",
         "Referer": "https://www.luogu.com/",
         "X-Forwarded-For": "$remote_addr",
-        "CF-Connecting-IP": "$remote_addr",
-        "Accept-Language": "en-US,en;q=0.9"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
       }
     }
   ],
-  "regions": ["sfo1"],  
-  "rewrites": [
-    { 
-      "source": "/cdn-cgi/(.*)", 
-      "destination": "https://www.luogu.com/cdn-cgi/$1" 
-    }
-  ]
+  "regions": ["hkg1"]  // 选择香港节点（离日本近，延迟低）
 }
