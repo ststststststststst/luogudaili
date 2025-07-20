@@ -1,28 +1,38 @@
-
 {
   "version": 2,
-  "builds": [{
-    "src": "api/proxy.js",
-    "use": "@vercel/node"
-  }],
+  "builds": [
+    { "src": "api/proxy.js", "use": "@vercel/node" }
+  ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/proxy",
+      "src": "/_next/(.*)",
+      "dest": "https://www.luogu.com/_next/$1",
       "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE"
+        "Host": "www.luogu.com",
+        "X-Real-IP": "203.198.7.16"  
       }
     },
     {
       "src": "/(.*)",
-      "dest": "https://www.luogu.com/$1",
+      "dest": "/api/proxy?path=$1",
       "headers": {
-        "Host": "www.luogu.com",
-        "X-Forwarded-Proto": "https",
-        "Cache-Control": "no-cache"
+        "Accept-Language": "en-US",
+        "X-Forwarded-Region": "hkg1"
       }
     }
   ],
-  "regions": ["hkg1"]
+  "regions": ["hkg1"],
+  "rewrites": [
+    { 
+      "source": "/(.*)", 
+      "destination": "https://www.luogu.com/$1",
+      "has": [
+        {
+          "type": "header",
+          "key": "referer",
+          "value": "(.*luogu\.com.*)"
+        }
+      ]
+    }
+  ]
 }
