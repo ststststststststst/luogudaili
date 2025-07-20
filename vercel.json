@@ -8,15 +8,16 @@
         "Host": "www.luogu.com",
         "Referer": "https://www.luogu.com/",
         "X-Forwarded-For": "$remote_addr",
-        "CF-Connecting-IP": "$remote_addr"
+        "CF-Connecting-IP": "$remote_addr",  // 伪装Cloudflare流量
+        "Accept-Language": "en-US,en;q=0.9"  // 强制国际版语言
       }
     }
   ],
-  "regions": ["sfo1"], 
+  "regions": ["sfo1"],  // 必须选择北美节点（旧金山）
   "rewrites": [
-    { "source": "/cdn-cgi/(.*)", "destination": "https://www.luogu.com/cdn-cgi/$1" }
+    { 
+      "source": "/cdn-cgi/(.*)", 
+      "destination": "https://www.luogu.com/cdn-cgi/$1" 
+    }
   ]
-}
-"functions": {
-  "api/*.php": { "runtime": "nodejs18.x" }
 }
