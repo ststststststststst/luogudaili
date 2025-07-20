@@ -9,18 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/proxy",
-      "headers": {
-        "X-Forwarded-Host": "dailiforluogu.luogu.xyz" 
-      }
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/proxy",
-      "headers": {
-        "X-Forwarded-Host": "luogudaili.luogu.xin" 
-      }
+      "dest": "/api/proxy"
     }
-  ],
-  "regions": ["hkg1"] 
+  ]
 }
