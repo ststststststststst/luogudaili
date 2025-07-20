@@ -8,16 +8,15 @@
         "Host": "www.luogu.com",
         "Referer": "https://www.luogu.com/",
         "X-Forwarded-For": "$remote_addr",
-        "CF-Connecting-IP": "$remote_addr"  // 伪装成Cloudflare请求
+        "CF-Connecting-IP": "$remote_addr"
       }
     }
   ],
-  "regions": ["sfo1"],  // 必须使用北美节点（旧金山）
+  "regions": ["sfo1"], 
   "rewrites": [
     { "source": "/cdn-cgi/(.*)", "destination": "https://www.luogu.com/cdn-cgi/$1" }
   ]
 }
-// 在vercel.json追加
 "functions": {
   "api/*.php": { "runtime": "nodejs18.x" }
 }
