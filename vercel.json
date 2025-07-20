@@ -1,14 +1,26 @@
-
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "api/proxy.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/api/proxy",
       "headers": {
-        "X-Forwarded-Host": "yourdomain.com"
+        "X-Forwarded-Host": "dailiforluogu.luogu.xyz" // 主域名
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/proxy",
+      "headers": {
+        "X-Forwarded-Host": "luogudaili.luogu.xin" // 备用域名
       }
     }
   ],
-  "regions": ["hkg1"]
+  "regions": ["hkg1"] // 推荐香港节点（延迟低）
 }
