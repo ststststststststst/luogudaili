@@ -30,7 +30,7 @@
         {
           "type": "header",
           "key": "referer",
-          "value": "(.*luogu\.com.*)"
+          "value": "(.*luogu\\.com.*)"
         }
       ]
     }
