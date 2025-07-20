@@ -1,0 +1,16 @@
+
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "https://www.luogu.com/$1",
+      "headers": {
+        "Host": "www.luogu.com",
+        "Referer": "https://www.luogu.com/",
+        "X-Forwarded-For": "$remote_addr"
+      }
+    }
+  ],
+  "regions": ["hkg1"] 
+}
