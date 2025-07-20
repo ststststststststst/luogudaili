@@ -1,16 +1,16 @@
+
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "render.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/render"
-    }
-  ],
-  "regions": ["hkg1"]
+  "builds": [{
+    "src": "proxy.js",
+    "use": "@vercel/node"
+  }],
+  "routes": [{
+    "src": "/(.*)",
+    "dest": "/proxy"
+  }],
+  "regions": ["hkg1"],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
