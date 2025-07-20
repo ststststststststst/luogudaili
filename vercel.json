@@ -2,13 +2,21 @@
   "version": 2,
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/proxy.js?path=$1",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
+    },
+    {
       "src": "/(.*)",
       "dest": "https://www.luogu.com/$1",
       "headers": {
         "Host": "www.luogu.com",
         "Referer": "https://www.luogu.com/",
         "User-Agent": "Mozilla/5.0",
-        "Accept-Language": "zh-CN,zh;q=0.9"
+        "Accept-Language": "zh-CN,zh;q=0.9",
+        "X-Forwarded-Proto": "https"
       }
     }
   ],
