@@ -1,34 +1,30 @@
-const TARGET = "https://www.luogu.com";
+ https = require('https');
+const TARGET = new URL('https://www.luogu.com');
 
-export default async (req, res) => {
-  const path = req.query.path || req.url.replace(/^\/api\//, '');
-  const url = new URL(path, TARGET);
+module.exports = async (req, res) => {
+  const path = req.url.replace(/^\/api\//, '');
+  const options = {
+    hostname: TARGET.hostname,
+    path: '/' + path,
+    method: req.method,
+    headers: {
+      ...req.headers,
+      host: TARGET.hostname,
+      origin: TARGET.origin,
+      referer: TARGET.origin + '/',
+      'x-real-ip': req.headers['x-real-ip'] || '8.8.8.8'
+    },
+    rejectUnauthorized: false 
+  };
 
-  const headers = { ...req.headers };
-  delete headers['host'];
-  delete headers['connection'];
-  delete headers['content-length'];
+  const proxyReq = https.request(options, (proxyRes) => {
+    res.writeHead(proxyRes.statusCode, proxyRes.headers);
+    proxyRes.pipe(res, { end: true });
+  });
 
-  try {
-    const resp = await fetch(url, {
-      method: req.method,
-      headers: {
-        ...headers,
-        'Host': new URL(TARGET).hostname,
-        'Origin': TARGET,
-        'Referer': TARGET
-      },
-      redirect: 'manual',
-      body: req.method !== 'GET' ? req.body : undefined
-    });
-
-    [...resp.headers].forEach(([key, value]) => {
-      res.setHeader(key, value);
-    });
-
-    return res.status(resp.status).send(await resp.text());
-  } catch (e) {
-    console.error('Proxy Error:', e);
-    return res.status(500).json({ error: "Proxy Error" });
-  }
+  req.pipe(proxyReq, { end: true });
+  proxyReq.on('error', (e) => {
+    console.error('Proxy error:', e);
+    res.status(502).end();
+  });
 };
