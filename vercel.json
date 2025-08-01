@@ -4,7 +4,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/proxy",
+      "dest": "/api/proxy",
       "headers": {
         "X-Forwarded-Host": "yourdomain.com"
       }
